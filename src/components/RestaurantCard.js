@@ -19,6 +19,7 @@ const RestaurantCard = ({ restaurant }) => {
           <h3>{restaurant.name || "Unknown Restaurant"}</h3> 
           <h4>{restaurant.cuisines?.length ? restaurant.cuisines.join(", ") : "No cuisines available"}</h4> 
           <h4>{restaurant.avgRating ? `${restaurant.avgRating} stars` : "No rating available"}</h4> 
+          <h4>{restaurant.costForTwoMessage}</h4>
           <h4>{restaurant.sla?.deliveryTime ? `${restaurant.sla.deliveryTime} minutes` : "Delivery time unknown"}</h4> 
       </div>
   );

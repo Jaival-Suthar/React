@@ -1,9 +1,15 @@
 import RestaurantCard from "./RestaurantCard";
 import { useState, useEffect } from "react";
+import Shimmer from "./Shimmer"
 
 
 const Body = () => {
     const [listOfRestaurants,setlistOfRestaurants] = useState([]);
+    const [filteredRestaurants,setfilteredRestaurants] = useState([]);
+    const [searchText,setSearchText] = useState("");
+    useEffect(() => {
+        fetchData();
+      }, []);
 
     const fetchData = async () => {
       try {
@@ -12,15 +18,13 @@ const Body = () => {
          // ✅ Converting response to JSON format
         const data = await response.json();
         console.log("Full API Response:", data);
-
+ 
         // ✅ Extracting the restaurant info correctly
         const restaurantsArray = data?.data?.cards?.[0]?.groupedCard?.cardGroupMap?.DISH?.cards;
-
          // ✅ Checking if valid restaurant data exists
          if (restaurantsArray && restaurantsArray.length > 0) {
           // ✅ Extracting only the first 5 restaurants
           const extractedRestaurants = restaurantsArray
-               // Take only the first 5 items
               .map(card => card?.card?.card?.restaurant?.info) // Extracting restaurant info
               .filter(Boolean); // Removing undefined values
             
@@ -30,10 +34,9 @@ const Body = () => {
             );
         
             setlistOfRestaurants(uniqueRestaurants);
+            setfilteredRestaurants(uniqueRestaurants);
           // ✅ Updating the state with extracted restaurant data
           // setlistOfRestaurants(extractedRestaurants);
-          
-          console.log("Extracted First 5 Restaurants:", extractedRestaurants);
       } else {
           console.error("Restaurant data not found in expected format.");
       }
@@ -42,14 +45,29 @@ const Body = () => {
       console.error("Error fetching data:", error);
   }
     };
-
-    useEffect(() => {
-      fetchData();
-    }, []);
     
-    return (
+    return listOfRestaurants.length===0 ? <Shimmer/> : (
         <div className="body">
             <div className="filter">
+                <div className="search">                                                                                                                                                                                                                                                                                            
+                    <input type="text" 
+                        className="search-box" 
+                        value={searchText} 
+                        onChange={(e)=>{
+                            setSearchText(e.target.value);
+                        }}/>
+                    <button
+                        onClick={()=>{
+                            //Filter the restuarant cards and update the UI
+                            const filteredRestaurant = listOfRestaurants.filter(
+                                res => res.name?.toLowerCase().includes(searchText.toLowerCase()) 
+                            );  
+                            console.log(searchText);
+                            setfilteredRestaurants(filteredRestaurant);
+                        }}    
+                    >Search</button>
+                </div>
+                
                 <button className="filter-btn" 
                 onClick={()=>{
                   const filteredList = listOfRestaurants.filter(
@@ -61,7 +79,7 @@ const Body = () => {
                 </button>
             </div>
             <div className="res-container">
-            {listOfRestaurants.map((res) => <RestaurantCard key={res.id} restaurant={res} />)}
+            {filteredRestaurants.map((res) => <RestaurantCard key={res.id} restaurant={res} />)}
                 {/* {listOfRestaurants.map((restaurant)=>(
                     <RestaurantCard key={restaurant.id} resData={restaurant}/>
                 ))} */}
