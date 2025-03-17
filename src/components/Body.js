@@ -1,6 +1,7 @@
 import RestaurantCard from "./RestaurantCard";
 import { useState, useEffect } from "react";
-import Shimmer from "./Shimmer"
+import Shimmer from "./Shimmer";
+import { Link } from "react-router-dom";
 
 
 const Body = () => {
@@ -14,36 +15,23 @@ const Body = () => {
     const fetchData = async () => {
       try {
          // ✅ Fetching restaurant data from Swiggy API
-        const response = await fetch("https://www.swiggy.com/dapi/restaurants/search/v3?lat=23.02760&lng=72.58710&str=Pizza%20Hut&trackingId=undefined&submitAction=ENTER&queryUniqueId=bf43b3dc-4cf3-b388-7b87-e9771f2e972a&selectedPLTab=DISH#");
+        const response = await fetch("https://www.swiggy.com/dapi/restaurants/list/v5?lat=23.022505&lng=72.5713621&collection=83633&tags=layout_CCS_NorthIndian&sortBy=&filters=&type=rcv2&offset=0&page_type=null");
          // ✅ Converting response to JSON format
-        const data = await response.json();
-        console.log("Full API Response:", data);
  
-        // ✅ Extracting the restaurant info correctly
-        const restaurantsArray = data?.data?.cards?.[0]?.groupedCard?.cardGroupMap?.DISH?.cards;
-         // ✅ Checking if valid restaurant data exists
-         if (restaurantsArray && restaurantsArray.length > 0) {
-          // ✅ Extracting only the first 5 restaurants
-          const extractedRestaurants = restaurantsArray
-              .map(card => card?.card?.card?.restaurant?.info) // Extracting restaurant info
-              .filter(Boolean); // Removing undefined values
-            
-              const uniqueRestaurants = extractedRestaurants.filter(
-                (restaurant, index, self) =>
-                    index === self.findIndex((res) => res.id === restaurant.id)
-            );
+        const data = await response.json();
+       console.log("Full API Response:", data);
         
-            setlistOfRestaurants(uniqueRestaurants);
-            setfilteredRestaurants(uniqueRestaurants);
-          // ✅ Updating the state with extracted restaurant data
-          // setlistOfRestaurants(extractedRestaurants);
-      } else {
-          console.error("Restaurant data not found in expected format.");
-      }
-  } catch (error) {
+
+        
+        // ✅ Extracting the restaurant info correctly
+        const restaurantsArray = data?.data?.cards?.slice(3, 9)?.map(card => card?.card?.card?.info);
+        //console.log("Data Extracted Loading: ", restaurantsArray);
+        setlistOfRestaurants(restaurantsArray);
+        setfilteredRestaurants(restaurantsArray);
+       } catch (error) {
       // ✅ Handling any errors that occur during fetching or processing
       console.error("Error fetching data:", error);
-  }
+        }
     };
     
     return listOfRestaurants.length===0 ? <Shimmer/> : (
@@ -79,10 +67,19 @@ const Body = () => {
                 </button>
             </div>
             <div className="res-container">
-            {filteredRestaurants.map((res) => <RestaurantCard key={res.id} restaurant={res} />)}
-                {/* {listOfRestaurants.map((restaurant)=>(
-                    <RestaurantCard key={restaurant.id} resData={restaurant}/>
-                ))} */}
+            {/* {filteredRestaurants.map((res) => <RestaurantCard key={res.id} restaurant={res} />)} */}
+            {
+            filteredRestaurants.map((res) => {
+                console.log("Restaurant object:", res);
+                return res ? 
+            
+            <Link 
+                key={res?.id}
+                to={"/restaurants/" + res?.id}>
+                <RestaurantCard restaurant={res} />
+            </Link>  : (
+                <p>No restaurants found.</p>
+            )})};
             </div>
         </div>
     )
