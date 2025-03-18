@@ -4,35 +4,45 @@ class UserClass extends React.Component{
 // Class has render methd which returns some piece of jsx
     constructor(props){
         super(props);
-       
-        
-        console.log("Child Constructor");
+
+        //console.log(this.props.name+"Child Constructor");
         this.state={
-            count:0,
+            userInfo:{
+                name: "Dummy",
+                location: "Default",
+                avatar_url: "",
+            }
         };
     };
 
-    componentDidMount(){
-        console.log("Child component did mount");
+    async componentDidMount(){
+        //console.log(this.props.name+"Child component did mount");
+        const data = await fetch("https://api.github.com/users/ayushsnha");
+        const json = await data.json();
+
+        this.setState({
+            userInfo: json,
+        })
+        console.log(json);
     }
 
     render(){
         //Let's destructure it so it looks good. And we dont't have to use this.props again
-        const {name, location, status}=this.props;
-        const { count  }=this.state;
-        console.log("Child Render");
+        const {name, location, bio, avatar_url}=this.props;
+        //console.log(this.props.name+"Child Render");
         return (
             <div className="user-card">
-                <h1>Count: {count}</h1>
-                <button onClick={()=>{
+                {/* <h1>Count: {count}</h1> */}
+                {/* <button onClick={()=>{
                     //NEVER UPDATE STATE VARIABLES DIRECTLY
                     this.setState({
                         count: this.state.count + 1,
                     })
-                }}>Count Increase</button>
-                <h2>Name: {name}</h2>
-                <h3>Location: {location}</h3>
-                <h4>Status: {status}</h4>
+                }}>Count Increase</button> */}
+                <img className="user-card-img" src={this.state.userInfo.avatar_url}/>
+                <h2>Name: {this.state.userInfo.name}</h2>
+                <h3>Location: {this.state.userInfo.location}</h3>
+                <h4>Bio: {this.state.userInfo.bio}</h4>
             </div>
         );
     }

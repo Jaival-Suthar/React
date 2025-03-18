@@ -6,20 +6,20 @@ class About extends React.Component{
 
     constructor(props){
         super(props);
-        console.log("Parent Contructor");
+        //console.log("Parent Contructor");
     }
 
     componentDidMount(){
-        console.log("Parent component did mount");
+        //console.log("Parent component did mount");
     }
 
     render (){
-        console.log("Parent Render")
+        //console.log("Parent Render")
         return(
             <div>
                 <h1>About</h1>
                 <h2>We are one of most trusted App. Choosen by Millions.</h2>
-                <UserClass name={"JNS"} location={"Gujarat, India"} status={"Focusing"}/>
+                <UserClass />
     
             </div>
         ); 
