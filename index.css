@@ -1,11 +1,14 @@
 .header{
     display: flex;
+    margin-top: 50px;
     justify-content: space-between;
     border: 1px solid black;
+    border-radius: 15px;
 }
 
 .logo{
     width: 120px;
+
 }
 
 .nav-items > ul{
@@ -178,4 +181,11 @@
     font-size: 18px;
     line-height: 1.2;
     text-align: end;
+  }
+
+  .user-card{
+    padding: 10px;
+    border: 1px solid black;
+    border-radius: 20px;
+    margin-bottom: 5px;
   }
