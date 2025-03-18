@@ -1,15 +1,30 @@
 import User from "./User";
 import UserClass from "./UserClass";
+import React from "react"; //Can also be written as just { Component } by destructuring (extends Component)
 
-const About = () => {
-    return(
-        <div>
-            <h1>About</h1>
-            <h2>We are one of most trusted App. Choosen by Millions.</h2>
-            <UserClass name={"JNS"} location={"Gujarat, India"} status={"Focusing"}/>
+class About extends React.Component{
 
-        </div>
-    );
-};
+    constructor(props){
+        super(props);
+        console.log("Parent Contructor");
+    }
+
+    componentDidMount(){
+        console.log("Parent component did mount");
+    }
+
+    render (){
+        console.log("Parent Render")
+        return(
+            <div>
+                <h1>About</h1>
+                <h2>We are one of most trusted App. Choosen by Millions.</h2>
+                <UserClass name={"JNS"} location={"Gujarat, India"} status={"Focusing"}/>
+    
+            </div>
+        ); 
+    }
+}
+
  
 export default About;

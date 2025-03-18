@@ -4,17 +4,23 @@ class UserClass extends React.Component{
 // Class has render methd which returns some piece of jsx
     constructor(props){
         super(props);
-        console.log(props);
-
+       
+        
+        console.log("Child Constructor");
         this.state={
             count:0,
         };
     };
 
+    componentDidMount(){
+        console.log("Child component did mount");
+    }
+
     render(){
         //Let's destructure it so it looks good. And we dont't have to use this.props again
         const {name, location, status}=this.props;
         const { count  }=this.state;
+        console.log("Child Render");
         return (
             <div className="user-card">
                 <h1>Count: {count}</h1>
