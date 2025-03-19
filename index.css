@@ -42,6 +42,23 @@
     cursor: pointer;
 }
 
+.res-card a {
+  color: inherit; /* Keeps text color same as parent */
+  text-decoration: none; /* Removes underline */
+}
+
+.res-name {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.res-card p, 
+.res-card h4 {
+  color: #333; /* Ensures text is not blue */
+  font-size: 14px;
+}
+
+
 .res-container{
     display: flex;
     align-items: center;
@@ -208,3 +225,4 @@
     transform: scale(1.05);
     border-color: #2980b9;
   }
+

@@ -2,7 +2,7 @@ import RestaurantCard from "./RestaurantCard";
 import { useState, useEffect } from "react";
 import Shimmer from "./Shimmer";
 import { Link } from "react-router-dom";
-
+import useOnlineStatus from "../../utils/useOnlineStatus";
 
 const Body = () => {
     const [listOfRestaurants,setlistOfRestaurants] = useState([]);
@@ -24,7 +24,7 @@ const Body = () => {
 
         
         // ✅ Extracting the restaurant info correctly
-        const restaurantsArray = data?.data?.cards?.slice(3, 9)?.map(card => card?.card?.card?.info);
+        const restaurantsArray = data?.data?.cards?.slice(3, 20)?.map(card => card?.card?.card?.info);
         //console.log("Data Extracted Loading: ", restaurantsArray);
         setlistOfRestaurants(restaurantsArray);
         setfilteredRestaurants(restaurantsArray);
@@ -34,6 +34,11 @@ const Body = () => {
         }
     };
     
+    const onlineStatus=useOnlineStatus();
+    if(onlineStatus===false) return (
+        <h1>
+            Looks like you're Offline
+        </h1>)
     return listOfRestaurants.length===0 ? <Shimmer/> : (
         <div className="body">
             <div className="filter">
