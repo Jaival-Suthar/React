@@ -1,20 +1,22 @@
-import RestaurantCard from "./RestaurantCard";
+import RestaurantCard, {withPromotedLabel} from "./RestaurantCard";
 import "./RestaurantCard.css";
 import { useState, useEffect } from "react";
 import Shimmer from "./Shimmer";
 import { Link } from "react-router-dom";
 import useOnlineStatus from "../../utils/useOnlineStatus";
-import { InputText } from 'primereact/inputtext';
+import { InputText } from 'primereact/inputtext';   
 import { Button } from 'primereact/button';
 import { Card } from 'primereact/card';
 import { Toolbar } from 'primereact/toolbar';
 import { Toast } from 'primereact/toast';
 import { useRef } from 'react';
 
+
 const Body = () => {
     const [listOfRestaurants, setlistOfRestaurants] = useState([]);
     const [filteredRestaurants, setfilteredRestaurants] = useState([]);
     const [searchText, setSearchText] = useState("");
+    const RestaurantCardPromoted = withPromotedLabel(RestaurantCard);
     const toast = useRef(null);
 
     useEffect(() => {
@@ -35,7 +37,7 @@ const Body = () => {
             if (!restaurantsArray || restaurantsArray.length === 0) {
                 throw new Error('No restaurants data found');
             }
-            
+            console.log("Fetched Restaurants:", restaurantsArray); // Debugging output
             setlistOfRestaurants(restaurantsArray);
             setfilteredRestaurants(restaurantsArray);
         } catch (error) {
@@ -139,25 +141,29 @@ const Body = () => {
                             className="mb-4"
                         />
                     </Card>
-                    <div className="restaurant-list">
-                        {filteredRestaurants.map((res) => {
-                            return res ? (
-                                <div key={res?.id} className="col-12 md:col-6 lg:col-4 xl:col-3">
-                                    <Link to={"/restaurants/" + res?.id} style={{ textDecoration: 'none' }}>
-                                        <RestaurantCard restaurant={res} />
-                                    </Link>
-                                </div>
-                            ) : (
-                                <div className="col-12">
-                                    <Card>
-                                        <div className="text-center">
-                                            <p>No restaurants found.</p>
-                                        </div>
-                                    </Card>
-                                </div>
-                            );
-                        })}
-                    </div>
+                    <div className="restaurant-list grid">
+    {filteredRestaurants.length > 0 ? (
+        filteredRestaurants.map((res) => {
+            const Card = res?.promoted ? withPromotedLabel(RestaurantCard) : RestaurantCard;
+            return (
+                <div key={res?.id} className="col-12 md:col-6 lg:col-4 xl:col-3">
+                    <Link to={`/restaurants/${res?.id}`} style={{ textDecoration: 'none' }}>
+                        <Card restaurant={res} />
+                    </Link>
+                </div>
+            );
+        })
+    ) : (
+        <div className="col-12">
+            <Card>
+                <div className="text-center">
+                    <p>No restaurants found.</p>
+                </div>
+            </Card>
+        </div>
+    )}
+</div>
+
                 </>
             )}
         </div>

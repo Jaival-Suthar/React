@@ -3,6 +3,8 @@ import { Rating } from 'primereact/rating';
 import { Tag } from 'primereact/tag';
 import { Toast } from 'primereact/toast';
 import { useRef } from 'react';
+import 'primeflex/primeflex.css';
+
 
 const RestaurantCard = ({ restaurant }) => {
   console.log("Received restaurant data:", restaurant); // Debugging log
@@ -33,5 +35,22 @@ const RestaurantCard = ({ restaurant }) => {
     </div>
   );
 };
+//Higher Order Component (HOC) 
+
+//input - RestaurantCard => RestaurantCardPromoted 
+export const withPromotedLabel = (RestaurantCard) => {
+  return (props) => {
+    return (
+      <div className="relative">
+        <div className="absolute top-0 left-0 m-2 px-2 py-1 text-xs font-bold text-white uppercase bg-black-alpha-90 border-round-sm shadow-2 z-2">
+          Promoted
+        </div>
+        <RestaurantCard {...props} />
+      </div>
+    );
+  };
+};
+
+
 
 export default RestaurantCard;
