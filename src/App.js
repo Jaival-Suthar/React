@@ -9,6 +9,13 @@ import Error from "./components/Error";
 import RestaurantMenu from "./components/RestaurantMenu";
 //import Grocery from "./components/Grocery";
 
+import "./index.css";
+// Import PrimeReact CSS
+import "primereact/resources/themes/lara-light-indigo/theme.css";
+import "primereact/resources/primereact.min.css";
+import "primeicons/primeicons.css";
+import { ProgressSpinner } from 'primereact/progressspinner';
+
 const Grocery = lazy(()=>import("./components/Grocery"));
 const About = lazy(()=>import("./components/About"));
 const AppLayout = () => {
@@ -19,6 +26,12 @@ const AppLayout = () => {
         </div>
     )
 }
+
+const LoadingSpinner = () => (
+    <div className="flex justify-content-center align-items-center" style={{ height: '100vh' }}>
+        <ProgressSpinner />
+    </div>
+);
 
 const appRouter= createBrowserRouter([
     {//Takes list of paths
@@ -31,7 +44,7 @@ const appRouter= createBrowserRouter([
             },
             {
                 path:"/about",
-                element:<Suspense fallback={<h1>Loading...</h1>}><About /></Suspense>
+                element:<Suspense fallback={<LoadingSpinner />}><About /></Suspense>
             },
             {
                 path:"/contact",
@@ -39,7 +52,7 @@ const appRouter= createBrowserRouter([
             },
             {
                 path:"/grocery",
-                element:<Suspense fallback={<h1>Loading...</h1>}><Grocery /></Suspense>
+                element:<Suspense fallback={<LoadingSpinner />}><Grocery /></Suspense>
             },
             {
                 path:"/restaurants/:resId",

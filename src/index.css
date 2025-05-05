@@ -55,7 +55,7 @@
 .res-card p, 
 .res-card h4 {
   color: #333; /* Ensures text is not blue */
-  font-size: 14px;
+  font-size: 13px;
 }
 
 
@@ -225,4 +225,3 @@
     transform: scale(1.05);
     border-color: #2980b9;
   }
-

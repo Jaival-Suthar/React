@@ -13,11 +13,12 @@ class UserClass extends React.Component{
                 avatar_url: "",
             }
         };
+        
     };
 
     async componentDidMount(){
         //console.log(this.props.name+"Child component did mount");
-        const data = await fetch("https://api.github.com/users/ayushsnha");
+        const data = await fetch("https://api.github.com/users/Jaival-Suthar");
         const json = await data.json();
 
         this.setState({

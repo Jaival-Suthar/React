@@ -1,93 +1,167 @@
 import RestaurantCard from "./RestaurantCard";
+import "./RestaurantCard.css";
 import { useState, useEffect } from "react";
 import Shimmer from "./Shimmer";
 import { Link } from "react-router-dom";
 import useOnlineStatus from "../../utils/useOnlineStatus";
+import { InputText } from 'primereact/inputtext';
+import { Button } from 'primereact/button';
+import { Card } from 'primereact/card';
+import { Toolbar } from 'primereact/toolbar';
+import { Toast } from 'primereact/toast';
+import { useRef } from 'react';
 
 const Body = () => {
-    const [listOfRestaurants,setlistOfRestaurants] = useState([]);
-    const [filteredRestaurants,setfilteredRestaurants] = useState([]);
-    const [searchText,setSearchText] = useState("");
+    const [listOfRestaurants, setlistOfRestaurants] = useState([]);
+    const [filteredRestaurants, setfilteredRestaurants] = useState([]);
+    const [searchText, setSearchText] = useState("");
+    const toast = useRef(null);
+
     useEffect(() => {
         fetchData();
-      }, []);
+    }, []);
 
     const fetchData = async () => {
-      try {
-         // ✅ Fetching restaurant data from Swiggy API
-        const response = await fetch("https://www.swiggy.com/dapi/restaurants/list/v5?lat=23.022505&lng=72.5713621&collection=83633&tags=layout_CCS_NorthIndian&sortBy=&filters=&type=rcv2&offset=0&page_type=null");
-         // ✅ Converting response to JSON format
- 
-        const data = await response.json();
-       console.log("Full API Response:", data);
-        
-
-        
-        // ✅ Extracting the restaurant info correctly
-        const restaurantsArray = data?.data?.cards?.slice(3, 20)?.map(card => card?.card?.card?.info);
-        //console.log("Data Extracted Loading: ", restaurantsArray);
-        setlistOfRestaurants(restaurantsArray);
-        setfilteredRestaurants(restaurantsArray);
-       } catch (error) {
-      // ✅ Handling any errors that occur during fetching or processing
-      console.error("Error fetching data:", error);
+        try {
+            const response = await fetch("https://www.swiggy.com/dapi/restaurants/list/v5?lat=23.022505&lng=72.5713621&collection=83633&tags=layout_CCS_NorthIndian&sortBy=&filters=&type=rcv2&offset=0&page_type=null");
+            
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            
+            const data = await response.json();
+            const restaurantsArray = data?.data?.cards?.slice(3, 40)?.map(card => card?.card?.card?.info);
+            
+            if (!restaurantsArray || restaurantsArray.length === 0) {
+                throw new Error('No restaurants data found');
+            }
+            
+            setlistOfRestaurants(restaurantsArray);
+            setfilteredRestaurants(restaurantsArray);
+        } catch (error) {
+            console.error("Error fetching data:", error);
+            toast.current.show({
+                severity: 'error',
+                summary: 'Error',
+                detail: 'Failed to fetch restaurants. Please try again later.',
+                life: 3000
+            });
         }
     };
-    
-    const onlineStatus=useOnlineStatus();
-    if(onlineStatus===false) return (
-        <h1>
-            Looks like you're Offline
-        </h1>)
-    return listOfRestaurants.length===0 ? <Shimmer/> : (
-        <div className="body">
-            <div className="filter">
-                <div className="search">                                                                                                                                                                                                                                                                                            
-                    <input type="text" 
-                        className="search-box" 
-                        value={searchText} 
-                        onChange={(e)=>{
-                            setSearchText(e.target.value);
-                        }}/>
-                    <button
-                        onClick={()=>{
-                            //Filter the restuarant cards and update the UI
-                            const filteredRestaurant = listOfRestaurants.filter(
-                                res => res.name?.toLowerCase().includes(searchText.toLowerCase()) 
-                            );  
-                            console.log(searchText);
-                            setfilteredRestaurants(filteredRestaurant);
-                        }}    
-                    >Search</button>
+
+    const handleSearch = () => {
+        const filteredRestaurant = listOfRestaurants.filter(
+            res => res.name?.toLowerCase().includes(searchText.toLowerCase())
+        );
+        setfilteredRestaurants(filteredRestaurant);
+        
+        if (filteredRestaurant.length === 0) {
+            toast.current.show({
+                severity: 'info',
+                summary: 'No Results',
+                detail: 'No restaurants found matching your search.',
+                life: 3000
+            });
+        }
+    };
+
+    const handleTopRated = () => {
+        const filteredList = listOfRestaurants.filter(
+            (res) => res.avgRating > 4
+        );
+        setfilteredRestaurants(filteredList);
+        
+        toast.current.show({
+            severity: 'success',
+            summary: 'Filter Applied',
+            detail: `Showing ${filteredList.length} top-rated restaurants`,
+            life: 3000
+        });
+    };
+
+    const onlineStatus = useOnlineStatus();
+    if (onlineStatus === false) return (
+        <div className="flex justify-content-center align-items-center" style={{ height: '100vh' }}>
+            <Card className="w-6">
+                <div className="text-center">
+                    <i className="pi pi-wifi-off text-6xl text-red-500 mb-3"></i>
+                    <h1 className="text-xl font-bold">Looks like you're Offline</h1>
+                    <p className="text-500">Please check your internet connection</p>
                 </div>
-                
-                <button className="filter-btn" 
-                onClick={()=>{
-                  const filteredList = listOfRestaurants.filter(
-                    (res) => res.avgRating > 4
-                );
-                    setlistOfRestaurants(filteredList);
-                }}>
-                    Top Rated Restaurant
-                </button>
-            </div>
-            <div className="res-container">
-            {/* {filteredRestaurants.map((res) => <RestaurantCard key={res.id} restaurant={res} />)} */}
-            {
-            filteredRestaurants.map((res) => {
-                console.log("Restaurant object:", res);
-                return res ? 
-            
-            <Link 
-                key={res?.id}
-                to={"/restaurants/" + res?.id}>
-                <RestaurantCard restaurant={res} />
-            </Link>  : (
-                <p>No restaurants found.</p>
-            )})};
-            </div>
+            </Card>
         </div>
-    )
+    );
+
+    const leftToolbarTemplate = () => {
+        return (
+            <div className="flex flex-wrap gap-3 align-items-center">
+                <div className="p-inputgroup">
+                    <span className="p-inputgroup-addon">
+                        <i className="pi pi-search"></i>
+                    </span>
+                    <InputText
+                        value={searchText}
+                        onChange={(e) => setSearchText(e.target.value)}
+                        placeholder="Search restaurants..."
+                        className="w-20rem"
+                        onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
+                    />
+                    <Button
+                        icon="pi pi-search"
+                        onClick={handleSearch}
+                        className="p-button-outlined"
+                    />
+                </div>
+            </div>
+        );
+    };
+
+    const rightToolbarTemplate = () => {
+        return (
+            <Button
+                icon="pi pi-star"
+                label="Top Rated Restaurants"
+                onClick={handleTopRated}
+                className="p-button-success"
+            />
+        );
+    };
+
+    return (
+        <div className="surface-ground p-4">
+            <Toast ref={toast} />
+            {listOfRestaurants.length === 0 ? <Shimmer /> : (
+                <>
+                    <Card className="mb-4">
+                        <Toolbar
+                            left={leftToolbarTemplate}
+                            right={rightToolbarTemplate}
+                            className="mb-4"
+                        />
+                    </Card>
+                    <div className="restaurant-list">
+                        {filteredRestaurants.map((res) => {
+                            return res ? (
+                                <div key={res?.id} className="col-12 md:col-6 lg:col-4 xl:col-3">
+                                    <Link to={"/restaurants/" + res?.id} style={{ textDecoration: 'none' }}>
+                                        <RestaurantCard restaurant={res} />
+                                    </Link>
+                                </div>
+                            ) : (
+                                <div className="col-12">
+                                    <Card>
+                                        <div className="text-center">
+                                            <p>No restaurants found.</p>
+                                        </div>
+                                    </Card>
+                                </div>
+                            );
+                        })}
+                    </div>
+                </>
+            )}
+        </div>
+    );
 }
 
 export default Body;

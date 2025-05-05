@@ -1,0 +1,50 @@
+.restaurant-list {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  justify-content: center;
+  max-width: 1000px;
+  margin: 24px auto 0 auto; /* top, right/left = auto, bottom */
+}
+.res-card {
+  padding: 5px;
+  width: 200px;
+  height: 370px;
+  font-size: 13px;
+  line-height: 1.0;
+  background-color: #f0f0f0;
+  border-radius: 15px;
+}
+
+.res-card:hover{
+  border: 1px solid black;
+  cursor: pointer;
+}
+
+.res-card a {
+color: inherit; /* Keeps text color same as parent */
+text-decoration: none; /* Removes underline */
+}
+
+.res-name {
+font-weight: bold;
+font-size: 16px;
+}
+
+.res-card p, 
+.res-card h4 {
+color: #333; /* Ensures text is not blue */
+font-size: 13px;
+}
+
+
+.res-container{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 5px;
+  margin: 0 auto; /* Centers the container */
+  max-width: 800px;
+}
