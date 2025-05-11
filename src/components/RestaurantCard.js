@@ -7,7 +7,7 @@ import 'primeflex/primeflex.css';
 
 
 const RestaurantCard = ({ restaurant }) => {
-  console.log("Received restaurant data:", restaurant); // Debugging log
+  //console.log("Received restaurant data:", restaurant); // Debugging log
 
   const toast = useRef(null);
 
