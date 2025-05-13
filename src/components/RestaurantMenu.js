@@ -1,6 +1,5 @@
 // RestaurantMenu.js
 import { useState, useEffect } from "react";
-import Shimmer from "./Shimmer";
 import { useParams } from "react-router-dom";
 import { MENU_API } from "../../utils/constants";
 import RestaurantCategory from "./RestaurantCategory";
@@ -8,12 +7,14 @@ import { Accordion, AccordionTab } from 'primereact/accordion';
 import 'primereact/resources/themes/lara-light-indigo/theme.css';
 import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
+import { ProgressSpinner } from 'primereact/progressspinner';
 
 const RestaurantMenu = () => {
     const [resInfo, setResInfo] = useState(null);
     const [categories, setCategories] = useState([]);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState(true);
 
     const { resId } = useParams();
 
@@ -55,13 +56,48 @@ const RestaurantMenu = () => {
         }
     };
 
-    // Show loading state
-    if (loading) return <Shimmer />;
+
 
     // Show error state
     if (error) return <div className="error-container"><h2>{error}</h2></div>;
 
-    // Show message if no data found
+    useEffect(() => {
+  let timer;
+  if (!loading) {
+    // Keep spinner visible for at least 1 second after actual loading completes
+    timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 2000);
+  }
+  
+  return () => {
+    if (timer) clearTimeout(timer);
+  };
+}, [loading]);
+
+if (isLoading) {
+  return (
+    <div className="spinner-container" style={{ 
+      position: 'fixed', 
+      top: 0, 
+      left: 0, 
+      width: '100%', 
+      height: '100%', 
+      display: 'flex', 
+      justifyContent: 'center', 
+      alignItems: 'center',
+      backgroundColor: 'rgba(255, 255, 255, 0.7)' // Semi-transparent background
+    }}>
+      <ProgressSpinner 
+        style={{width: '50px', height: '50px'}} 
+        strokeWidth="8" 
+        fill="transparent" 
+        animationDuration=".5s" 
+      />
+    </div>
+  );
+}
+
     if (!resInfo) return <div className="no-data"><h2>Restaurant information not available</h2></div>;
 
     return (
