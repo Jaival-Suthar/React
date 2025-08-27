@@ -18,7 +18,8 @@
   "scripts": {
     "start": "parcel src/index.html",
     "build": "parcel build src/index.html",
-    "test": "jest"
+    "test": "jest",
+    "watch test": "jest --watch"
   },
   "devDependencies": {
     "@babel/core": "^7.27.4",

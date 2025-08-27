@@ -8,7 +8,7 @@ import { Badge } from 'primereact/badge';
 import { Avatar } from 'primereact/avatar';
 
 const Header = () => {
-    const [btnNameReact, setbtnNameReact] = useState("Login");
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
     const onlineStatus = useOnlineStatus();
 
     const items = [
@@ -52,13 +52,12 @@ const Header = () => {
                 aria-label="Cart"
             />
             <Button
-                label={btnNameReact}
-                icon={btnNameReact === "Login" ? "pi pi-sign-in" : "pi pi-sign-out"}
-                onClick={() => {
-                    btnNameReact === "Login" ? setbtnNameReact("Logout") : setbtnNameReact("Login");
-                }}
-                className="p-button-outlined"
+            label={isLoggedIn ? "Logout" : "Login"}
+            icon={isLoggedIn ? "pi pi-sign-out" : "pi pi-sign-in"}
+            onClick={() => setIsLoggedIn(!isLoggedIn)}
+            className="p-button-outlined"
             />
+
         </div>
     );
 

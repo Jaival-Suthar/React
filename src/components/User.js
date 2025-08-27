@@ -1,18 +1,30 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-const User = ({name})=>{
-    const[count, setcount]=useState(0);
-    const[count2,setcount2]=useState(1);
-    
-    return (
-        <div className="user-card">
-            <h1>Count: {count}</h1>
-            <h1>Count: {count2}</h1>
-            <h2>Name: {name}</h2>
-            <h3>Location: Gujarat, India</h3>
-            <h4>Obsessed with making a positive impact</h4>
-        </div>
-    );
+const User = () => {
+  const [userInfo, setUserInfo] = useState({
+    name: "Dummy",
+    location: "Default",
+    avatar_url: "",
+    bio: "N/A"
+  });
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const response = await fetch("https://api.github.com/users/Jaival-Suthar");
+      const data = await response.json();
+      setUserInfo(data);
+    };
+    fetchUser();
+  }, []);
+
+  return (
+    <div className="user-card">
+      <img className="user-card-img" src={userInfo.avatar_url} />
+      <h2>Name: {userInfo.name}</h2>
+      <h3>Location: {userInfo.location}</h3>
+      <h4>Bio: {userInfo.bio}</h4>
+    </div>
+  );
 };
 
 export default User;

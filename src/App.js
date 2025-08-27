@@ -44,7 +44,7 @@ const appRouter= createBrowserRouter([
             },
             {
                 path:"/about",
-                element:<Suspense fallback={<LoadingSpinner />}><About /></Suspense>
+                element:<About />
             },
             {
                 path:"/contact",
@@ -52,7 +52,7 @@ const appRouter= createBrowserRouter([
             },
             {
                 path:"/grocery",
-                element:<Suspense fallback={<LoadingSpinner />}><Grocery /></Suspense>
+                element:<Grocery />
             },
             {
                 path:"/restaurants/:resId",
@@ -65,4 +65,7 @@ const appRouter= createBrowserRouter([
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
-root.render(<RouterProvider router={appRouter} />);
+root.render(<Suspense fallback={<LoadingSpinner />}>
+  <RouterProvider router={appRouter} />
+</Suspense>
+);
