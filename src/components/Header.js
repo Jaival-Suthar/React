@@ -18,6 +18,11 @@ const Header = () => {
             url: '/'
         },
         {
+            label: 'Grocery',
+            icon: 'pi pi-shopping-cart',
+            url: '/grocery'
+        },
+        {
             label: 'About Us',
             icon: 'pi pi-info-circle',
             url: '/about'
@@ -27,16 +32,11 @@ const Header = () => {
             icon: 'pi pi-envelope',
             url: '/contact'
         },
-        {
-            label: 'Grocery',
-            icon: 'pi pi-shopping-cart',
-            url: '/grocery'
-        }
     ];
 
     const start = (
         <div className="flex align-items-center">
-            <img alt="logo" src={LOGO_URL} height="40" className="mr-2" />
+            <img alt="logo" src={LOGO_URL} height="30" className="mr-2" />
         </div>
     );
 

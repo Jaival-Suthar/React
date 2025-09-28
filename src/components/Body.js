@@ -37,7 +37,7 @@ const Body = () => {
             if (!restaurantsArray || restaurantsArray.length === 0) {
                 throw new Error('No restaurants data found');
             }
-            console.log("Fetched Restaurants:", restaurantsArray); // Debugging output
+            //console.log("Fetched Restaurants:", restaurantsArray); // Debugging output
             setlistOfRestaurants(restaurantsArray);
             setfilteredRestaurants(restaurantsArray);
         } catch (error) {
@@ -69,7 +69,7 @@ const Body = () => {
 
     const handleTopRated = () => {
         const filteredList = listOfRestaurants.filter(
-            (res) => res.avgRating > 4
+            (res) => res.avgRating > 4.5
         );
         setfilteredRestaurants(filteredList);
         

@@ -225,3 +225,273 @@
     transform: scale(1.05);
     border-color: #2980b9;
   }
+
+/* Root layout */
+.contact-page {
+  background: #f8f9ff;
+  min-height: 100vh;
+  padding: 50px 15px;
+  font-family: Arial, sans-serif;
+  color: #222;
+}
+
+/* Container */
+.contact-container {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+/* Header */
+.contact-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.contact-header h1 {
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+.contact-header p {
+  color: #555;
+  font-size: 1rem;
+}
+
+/* Form box */
+.contact-form-box {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+}
+
+/* Header */
+.form-header {
+  background: #4c6ef5;
+  color: #fff;
+  padding: 20px;
+}
+
+.form-header h2 {
+  margin: 0 0 5px 0;
+  font-size: 1.4rem;
+}
+
+/* Body */
+.form-body {
+  padding: 25px;
+}
+
+.form-row {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.form-group {
+  flex: 1;
+  min-width: 250px;
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 500;
+}
+
+.required {
+  color: red;
+  margin-left: 2px;
+}
+
+.optional {
+  color: #777;
+  font-size: 0.85rem;
+}
+
+input,
+textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1.5px solid #ccc;
+  border-radius: 6px;
+  font-size: 0.95rem;
+}
+
+input:focus,
+textarea:focus {
+  border-color: #4c6ef5;
+  outline: none;
+}
+
+.input-error {
+  border-color: #e03131;
+}
+
+.error-text {
+  font-size: 0.85rem;
+  color: #e03131;
+  margin-top: 5px;
+}
+
+/* Message Count */
+.char-count {
+  text-align: right;
+  font-size: 0.8rem;
+  color: #666;
+  margin-top: 5px;
+}
+
+/* Button */
+.submit-btn {
+  width: 100%;
+  padding: 12px;
+  background: #4c6ef5;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.submit-btn:hover {
+  background: #3b5bdb;
+}
+
+.submit-btn.disabled {
+  background: #aaa;
+  cursor: not-allowed;
+}
+
+/* Footer note */
+.note {
+  text-align: center;
+  font-size: 0.85rem;
+  color: #666;
+  margin-top: 10px;
+}
+
+/* Info cards */
+.contact-info {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 40px;
+}
+
+.info-card {
+  flex: 1;
+  min-width: 220px;
+  text-align: center;
+  background: #fff;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.05);
+}
+
+.info-card .icon {
+  font-size: 1.8rem;
+  margin-bottom: 8px;
+}
+
+.info-card h3 {
+  margin-bottom: 5px;
+  font-size: 1.05rem;
+}
+
+.info-card p {
+  color: #555;
+  font-size: 0.9rem;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .contact-header h1 {
+    font-size: 1.6rem;
+  }
+
+  .form-body {
+    padding: 20px 15px;
+  }
+
+  .submit-btn {
+    font-size: 0.95rem;
+  }
+}
+
+/* Grocery.css */
+.grocery {
+  display: flex;
+  gap: 30px;
+  padding: 25px;
+  background: #f5f7fa;
+  min-height: 100vh;
+  font-family: 'Arial', sans-serif;
+}
+.main {
+  flex: 3;
+}
+
+.cart {
+  flex: 1;
+  position: sticky;
+  top: 25px;
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+}
+.search {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 15px;
+  border: 2px solid #007bff;
+  border-radius: 4px;
+  font-size: 16px;
+  transition: border-color 0.3s;
+}
+
+.search:focus {
+  outline: none;
+  border-color: #0056b3;
+}
+
+.products {
+  display: grid;
+  gap: 15px;
+}
+
+.product {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px;
+  background: #fff;
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.product:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.cart-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid #eee;
+  box-shadow: 6px;
+}
+
+input[type="number"] {
+  width: 70px;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  text-align: center;
+}
+input[type="number"] { width: 60px; }

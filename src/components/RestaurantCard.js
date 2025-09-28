@@ -38,18 +38,24 @@ const RestaurantCard = ({ restaurant }) => {
 //Higher Order Component (HOC) 
 
 //input - RestaurantCard => RestaurantCardPromoted 
-export const withPromotedLabel = (RestaurantCard) => {
+export const withPromotedLabel = (BaseComponent) => {
   return (props) => {
+    const { restaurant } = props;
+    const isPromoted = restaurant?.promoted;
+
     return (
       <div className="relative">
-        <div className="absolute top-0 left-0 m-2 px-2 py-1 text-xs font-bold text-white uppercase bg-black-alpha-90 border-round-sm shadow-2 z-2">
-          Promoted
-        </div>
-        <RestaurantCard {...props} />
+        {isPromoted && (
+          <div className="absolute top-0 left-0 m-2 px-2 py-1 text-xs font-bold text-white uppercase bg-black-alpha-90 border-round-sm shadow-2 z-2">
+            Promoted
+          </div>
+        )}
+        <BaseComponent {...props} />
       </div>
     );
   };
 };
+
 
 
 

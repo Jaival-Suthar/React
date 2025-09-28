@@ -18,7 +18,7 @@ const RestaurantMenu = () => {
 
     const { resId } = useParams();
 
-    console.log("Restaurant ID:", resId);
+    //console.log("Restaurant ID:", resId);
 
     useEffect(() => {
         fetchMenu();

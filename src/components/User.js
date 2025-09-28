@@ -19,7 +19,11 @@ const User = () => {
 
   return (
     <div className="user-card">
-      <img className="user-card-img" src={userInfo.avatar_url} />
+      <img className="user-card-img" src={userInfo.avatar_url} alt="User Avatar"
+      onContextMenu={e => e.preventDefault()}
+      draggable={false}
+      onDragStart={e => e.preventDefault()}
+      style={{ userSelect: "none" }}/>
       <h2>Name: {userInfo.name}</h2>
       <h3>Location: {userInfo.location}</h3>
       <h4>Bio: {userInfo.bio}</h4>

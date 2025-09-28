@@ -24,7 +24,6 @@ class UserClass extends React.Component{
         this.setState({
             userInfo: json,
         })
-        console.log(json);
     }
 
     render(){
@@ -40,7 +39,11 @@ class UserClass extends React.Component{
                         count: this.state.count + 1,
                     })
                 }}>Count Increase</button> */}
-                <img className="user-card-img" src={this.state.userInfo.avatar_url}/>
+                <img className="user-card-img" src={this.state.userInfo.avatar_url} alt="User Avatar"
+                onContextMenu={e => e.preventDefault()}
+                draggable={false}
+                onDragStart={e => e.preventDefault()}
+                style={{ userSelect: "none" }}/>    
                 <h2>Name: {this.state.userInfo.name}</h2>
                 <h3>Location: {this.state.userInfo.location}</h3>
                 <h4>Bio: {this.state.userInfo.bio}</h4>
