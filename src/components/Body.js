@@ -10,7 +10,7 @@ import { Card } from 'primereact/card';
 import { Toolbar } from 'primereact/toolbar';
 import { Toast } from 'primereact/toast';
 import { useRef } from 'react';
-
+import { RESTAURANT_LIST_API } from "../../utils/constants";
 
 const Body = () => {
     const [listOfRestaurants, setlistOfRestaurants] = useState([]);
@@ -25,7 +25,7 @@ const Body = () => {
 
     const fetchData = async () => {
         try {
-            const response = await fetch("https://www.swiggy.com/dapi/restaurants/list/v5?lat=23.022505&lng=72.5713621&collection=83633&tags=layout_CCS_NorthIndian&sortBy=&filters=&type=rcv2&offset=0&page_type=null");
+            const response = await fetch(RESTAURANT_LIST_API);
             
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
